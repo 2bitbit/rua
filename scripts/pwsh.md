@@ -7,7 +7,7 @@ function rua-helper-function-Invoke-KeyPress {
     $scriptBlock = {
         param($KeysToSend)
         Add-Type -AssemblyName System.Windows.Forms 
-        [System.Windows.Forms.SendKeys]::SendWait($KeysToSend)active
+        [System.Windows.Forms.SendKeys]::SendWait($KeysToSend)
     }
     Start-Job -ScriptBlock $scriptBlock -ArgumentList $Text | Out-Null
 }
