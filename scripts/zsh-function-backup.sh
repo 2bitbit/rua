@@ -1,11 +1,9 @@
-# -----------------------------------------------------------------------------
+# ----------------------rua part--------------------------------
+
 # Part 1: The 'precmd' Hook
 # This is the core mechanism that allows inserting text into the next prompt.
-# It is more direct than the key-press simulation used in PowerShell.
-# -----------------------------------------------------------------------------
-
-# This function runs just before each command prompt is displayed.
-_rua_insert_on_next_prompt() {
+# (It is more direct than the key-press simulation used in PowerShell.)
+_rua_insert_on_next_prompt() { # This function runs just before each command prompt is displayed.
     # Check if our special global variable 'RUA_SELECTED_COMMAND' has been set by the 'rua' function.
     if [[ -n "$RUA_SELECTED_COMMAND" ]]; then
         # If it is set, push its content into the Zsh Line Editor (ZLE) buffer.
@@ -16,26 +14,18 @@ _rua_insert_on_next_prompt() {
     fi
 }
 # Register the function to run as a 'precmd' hook.
-# This is the standard way to add hooks without overwriting existing ones.
 autoload -Uz add-zsh-hook
 add-zsh-hook precmd _rua_insert_on_next_prompt
 
-
-# -----------------------------------------------------------------------------
 # Part 2: The 'rua' Function
-# This is the Zsh equivalent of your 'rua' PowerShell function.
-# -----------------------------------------------------------------------------
-
 rua() {
     # Define the path to your executable.
-    local rubus_executable="D:/Workspace/Repos/rubus/target/debug/rubus.exe"
+    local rubus_executable="/home/finnwsl/repos/rubus/target/debug/rubus"
 
     # Check the number of arguments passed to the function.
-    # In Zsh, '$#' holds the count of arguments.
-    if (( $# == 0 )); then
+    if (( $# == 0 )); then   # In Zsh, '$#' holds the count of arguments.
         # --- Mode 1: Interactive Fill ---
         # No arguments were provided, so we run the interactive TUI.
-
         # 1. Execute rubus and capture its standard output (stdout).
         #    The selected command from the TUI will be stored in this variable.
         local selected_command
@@ -45,16 +35,15 @@ rua() {
         #    In Zsh, '-n' tests for a non-zero length string.
         if [[ -n "$selected_command" ]]; then
             # 3. If a command was selected, assign it to our global variable.
-            #    The '_rua_insert_on_next_prompt' hook will see this variable
-            #    and place its content into the prompt.
+            #    The '_rua_insert_on_next_prompt' hook will see this variable and place its content into the prompt.
             RUA_SELECTED_COMMAND="$selected_command"
         fi
     else
         # --- Mode 2: Normal Command Execution ---
         # Arguments like 'add' or 'ls' were provided.
-
         # Execute the command directly with all the provided arguments.
         # In Zsh, '"$@"' expands to all arguments, correctly handling spaces.
         "$rubus_executable" "$@"
     fi
 }
+# ----------------------rua part--------------------------------
