@@ -1,6 +1,6 @@
 1. `nano ~/.zshrc` or `vim ~/.zshrc`  
 
-2. Append this to the file:
+2. Append the following content and replace the value of rubus_executable with the path to your rubus executable: 
 ```zsh
 # ----------------------rua part--------------------------------
 _rua_insert_on_next_prompt() {
@@ -13,7 +13,7 @@ autoload -Uz add-zsh-hook
 add-zsh-hook precmd _rua_insert_on_next_prompt
 
 rua() {
-    local rubus_executable="/home/finnwsl/repos/rubus/target/debug/rubus"
+    local rubus_executable="<path/to/your/rubus.exe e.g. /home/finnwsl/repos/rubus/target/debug/rubus>"
     if (( $# == 0 )); then   
         local selected_command
         selected_command=$("$rubus_executable")
