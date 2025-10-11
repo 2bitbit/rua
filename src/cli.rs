@@ -3,7 +3,7 @@ use crate::config::Source;
 use clap::{Parser, Subcommand};
 
 #[derive(Parser, Debug)]
-#[clap(name = "rubus", version, about = "一个智能的命令行快捷启动器")]
+#[clap(name = "rua", version, about = "一个智能的命令行快捷启动器")]
 pub struct Cli {
     #[clap(subcommand)]
     pub command: Option<Commands>,
@@ -35,7 +35,7 @@ pub enum Commands {
     // #[clap(name = "serve")]
     // Serve {
     //     /// 作为数据源的JSON文件路径
-    //     #[clap(default_value = "~/.config/rubus/commands.json")]
+    //     #[clap(default_value = "~/.config/rua/commands.json")]
     //     path: std::path::PathBuf,
     //     /// 服务器监听的端口
     //     #[clap(short, long, default_value = "7878")]

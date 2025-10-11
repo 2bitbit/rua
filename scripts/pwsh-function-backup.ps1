@@ -1,45 +1,46 @@
-# You can open your profile for editing by running the command $PROFILE in PowerShell.
-
-
 # - My initial idea, to have a function insert a new command onto the next line after pressing Enter,
 # couldn't be realized in my environment. 
-# - However, we were able to solve it by thinking outside the box and
-# using a function that simulates automatically typing the characters.
+# - However, we were able to solve it by thinking outside the box -- using clipboard.
 
-# Helper function that types text into the active window
-function rua-helper-function-Invoke-KeyPress {
-    param([string]$Text)
+# Helper function to handle the background clipboard and paste operations
+function rua-helper-function-Invoke-PasteAndRestore {
+    param([string]$TextToPaste,$OriginalClipboardContent) # OriginalClipboardContent can be null
 
-    # This is the code that will run in a background process
     $scriptBlock = {
-        param($KeysToSend)
-        Add-Type -AssemblyName System.Windows.Forms  # Load the required .NET assembly for sending keystrokes
-        [System.Windows.Forms.SendKeys]::SendWait($KeysToSend) # Send the keystrokes to whatever window is currently active
+        param($NewContent, $OriginalContent)
+        try{
+            # This entire block runs in the background: 
+            # 1. Place the new command onto the clipboard
+            Set-Clipboard -Value $NewContent
+            # 2. Simulate the paste command (Ctrl+V)
+            Add-Type -AssemblyName System.Windows.Forms
+            [System.Windows.Forms.SendKeys]::SendWait("^v")
+            # 3. Restore the original clipboard content
+            # A tiny delay helps ensure the paste command has been processed by the system.
+            Start-Sleep -Milliseconds 200
+        }
+        finally{
+            if ($null -ne $OriginalContent) {Set-Clipboard -Value $OriginalContent} 
+            else {Clear-Clipboard}  # If the original clipboard was empty, clear it again.
+        }
     }
-
-    # Start a background job to run the script block.
-    # This lets our main function finish instantly.
-    Start-Job -ScriptBlock $scriptBlock -ArgumentList $Text | Out-Null
+    # Start a lightweight thread job to run the script block without delay.
+    Start-ThreadJob -ScriptBlock $scriptBlock -ArgumentList $TextToPaste, $OriginalClipboardContent | Out-Null
 }
 
-
+# Main function
 function rua {
-    $rubus_executable = "D:\Workspace\Repos\rubus\target\debug\rubus.exe"
-        # 检查 $args 数组的长度。如果长度为 0，说明用户只输入了 `rua`，没有带任何参数。
+    $rua_executable = "D:\Workspace\Repos\rua\target\debug\rua.exe" # "<path/to/your/rua.exe e.g. D:\Workspace\Repos\rua\target\debug\rua.exe>"
+
     if ($args.Count -eq 0) {
-            # --- 模式一：交互式填充 ---
-            # 1. 执行 rubus 并捕获其标准输出 (stdout)
-            $selected_command = & $rubus_executable
-            # 2. 检查是否有命令被输出（即用户是否在 TUI 中选择了命令）
-            if (-not [string]::IsNullOrEmpty($selected_command)) {
-                rua-helper-function-Invoke-KeyPress -Text $selected_command
-            }
+        $selected_command = & $rua_executable
+        if (-not [string]::IsNullOrEmpty($selected_command)) {
+            # Step A: Save the original clipboard content before doing anything else.
+            # The -Raw switch gets text, and -ErrorAction SilentlyContinue handles an empty clipboard.
+            $originalClipboard = Get-Clipboard -Raw -ErrorAction SilentlyContinue
+            # Step B: Call the helper to perform the paste-and-restore operation in the background.
+            rua-helper-function-Invoke-PasteAndRestore -TextToPaste $selected_command -OriginalClipboardContent $originalClipboard
+        }
     }
-    else {
-        # --- 模式二：普通命令执行 ---
-        # 如果 $args 不为空，说明用户执行的是 rua add, rua ls 等子命令。
-        # 在这种情况下，我们直接执行命令，并让它的输出自然地显示在控制台中，而不进行任何捕获或填充操作。
-        # 使用 & (调用操作符) 和 @args (参数) 
-         & $rubus_executable @args
-    }
+    else {& $rua_executable @args}  # For subcommands like 'rua add', just run the command normally.
 }

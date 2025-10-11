@@ -1,5 +1,14 @@
 //! 交互界面 (`rua` 默认模式的 TUI)
 
+// Define a macro that acts as your reusable template.
+// The format string is a literal inside the macro, which the compiler can check.
+#[macro_export]
+macro_rules! format_list_item {
+    ($key:expr, $command:expr, $expanded:expr) => {
+        format!("{}: {:80}    | expanded: {}", $key, $command, $expanded)
+    };
+}
+
 mod core;
 mod ui;
 
@@ -15,6 +24,8 @@ pub struct TUI {
     renderer: Terminal<CrosstermBackend<io::Stderr>>, // Draw its TUI on Standard Error (stderr) .Print its final, clean result to Standard Output (stdout). To avoid garbled text in stdout.
     entries: Vec<CommandEntry>,
 }
+
+
 
 pub const AVAILABLE_KEYS: LazyLock<HashSet<String>> = LazyLock::new(|| {
     let base_keys: HashSet<String> = HashSet::new();

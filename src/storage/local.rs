@@ -17,7 +17,7 @@ impl LocalBackend {
         // get config_dir
         let config_dir = dirs::config_dir()
             .ok_or_else(|| anyhow!("Could not find config directory"))?
-            .join("rubus");
+            .join("rua");
         // 确保配置目录存在
         std::fs::create_dir_all(&config_dir)
             .with_context(|| format!("Failed to create config directory at {:?}", &config_dir))?;

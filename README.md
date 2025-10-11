@@ -1,4 +1,4 @@
-# rubus（意为rua不死，象征一直rua）
+# Rua（意为rua不死，象征一直rua）
 
 ## 用户手册
 [[粘贴 cargo doc 的内容]]
@@ -15,6 +15,6 @@
 先前的redis基础能否创意融进去？或作为一个扩展功能？
 
 如果你哪点不清楚，请随时问我。
-## 品牌故事
-作为一个小型仿 Redis 项目，本想起名 Rudis，却看到有太多志同道合的英雄所见略同了。   
-加上自己不被 rua 死（rudis），就起名 rua 不死了。
+
+## Code Joke
+Rubus means "rua 不死", in contrast to "rua 嘀死"(`Rudis`).

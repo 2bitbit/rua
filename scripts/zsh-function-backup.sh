@@ -1,5 +1,4 @@
 # ----------------------rua part--------------------------------
-
 # Part 1: The 'precmd' Hook
 # This is the core mechanism that allows inserting text into the next prompt.
 # (It is more direct than the key-press simulation used in PowerShell.)
@@ -20,16 +19,16 @@ add-zsh-hook precmd _rua_insert_on_next_prompt
 # Part 2: The 'rua' Function
 rua() {
     # Define the path to your executable.
-    local rubus_executable="/home/finnwsl/repos/rubus/target/debug/rubus"
+    local rua_executable="/home/finnwsl/repos/rua/target/debug/rua""<path/to/your/rua.exe e.g. /home/finnwsl/repos/rua/target/debug/rua>"
 
     # Check the number of arguments passed to the function.
     if (( $# == 0 )); then   # In Zsh, '$#' holds the count of arguments.
         # --- Mode 1: Interactive Fill ---
         # No arguments were provided, so we run the interactive TUI.
-        # 1. Execute rubus and capture its standard output (stdout).
+        # 1. Execute rua and capture its standard output (stdout).
         #    The selected command from the TUI will be stored in this variable.
         local selected_command
-        selected_command=$("$rubus_executable")
+        selected_command=$("$rua_executable")
 
         # 2. Check if a command was actually selected (the output is not an empty string).
         #    In Zsh, '-n' tests for a non-zero length string.
@@ -43,7 +42,7 @@ rua() {
         # Arguments like 'add' or 'ls' were provided.
         # Execute the command directly with all the provided arguments.
         # In Zsh, '"$@"' expands to all arguments, correctly handling spaces.
-        "$rubus_executable" "$@"
+        "$rua_executable" "$@"
     fi
 }
 # ----------------------rua part--------------------------------

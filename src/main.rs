@@ -1,4 +1,4 @@
-//! Rubus 程序入口：解析CLI，分发任务
+//! rua 程序入口：解析CLI，分发任务
 //!
 //! ## 用户手册
 //! 无特殊说明，所有操作都只针对当前源。
@@ -75,10 +75,7 @@ async fn main() -> Result<()> {
                 } else {
                     for entry in entries {
                         let expanded_cmd = expand_command(&entry.command);
-                        println!(
-                            "{} : {}      (expanded: {})",
-                            entry.key, entry.command, expanded_cmd
-                        );
+                        println!("{}",format_list_item!(entry.key, entry.command, expanded_cmd));
                     }
                 }
                 // 根据设计文档，打印出当前的命令源
