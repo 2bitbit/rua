@@ -47,6 +47,6 @@ cargo build --release
 ```
 2. **Configure Shell**: Remember to follow the shell setup steps mentioned in the "Installation" section above.
 
-<p align="center"> Colde Joke: 
+<p align="center" style="color:#666666"> Colde Joke: 
 Rubus means "rua 不死", in contrast to "rua 嘀死"(`Rudis`).
 </p>
