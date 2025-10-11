@@ -2,10 +2,9 @@
 <pre align="center">English   |  <a href="https://github.com/2bitbit/rua/README_cn.md">简体中文</a></pre>
 Rua is a fast and simple terminal utility that allows you to save and quickly access your frequently used shell commands through an interactive, key-based menu.
 
-## Demo
+## Demo 
 
-!
-*(A short GIF demonstrating the TUI would be perfect here)*
+![[demo.gif]]
 
 ## Key Features
 

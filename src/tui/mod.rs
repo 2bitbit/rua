@@ -5,7 +5,7 @@
 #[macro_export]
 macro_rules! format_list_item {
     ($key:expr, $command:expr, $expanded:expr) => {
-        format!("{}: {:80}    | expanded: {}", $key, $command, $expanded)
+        format!("{}: {:60}    | expanded: {}", $key, $command, $expanded)
     };
 }
 
