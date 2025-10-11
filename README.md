@@ -1,20 +1,53 @@
-# Rua（意为rua不死，象征一直rua）
+# Rua - A Smart Command Launcher
+<pre align="center">English   |  <a href="https://github.com/2bitbit/rua/README_cn.md">简体中文</a></pre>
+Rua is a fast and simple terminal utility that allows you to save and quickly access your frequently used shell commands through an interactive, key-based menu.
 
-## 用户手册
-[[粘贴 cargo doc 的内容]]
+## Demo
 
-## 主要功能：
-1. `rua`进入rua列表，呈现一行行的记录。格式：key : command，按command的字典序排列。用户执行`rua`后按下对应的一个键盘键，就能直接执行对应的命令。（直接退出列表，并且把rua命令的执行记录删去，只留下对应命令的执行记录）（如果不存在则保持不动。按esc退出rua列表。注意不要打印改条rua历史记录）
+!
+*(A short GIF demonstrating the TUI would be perfect here)*
 
-2. `rua <key> <command>` 把一个command添加到rua列表
+## Key Features
 
-是否合适？
+* **Interactive TUI**: Simply run `rua` to open a clean, interactive list of your saved commands.Press the shortcut key corresponding to the command to immediately fill in the command line prompt.
+* **Smart Expansion**: Displays the full, resolved path for commands (e.g., `conda` becomes `C:\Users\...\conda.exe`), so you always know exactly what will run.
+* **Simple Management**: Add, remove, and list your command shortcuts with straightforward subcommands.
+* **Cross-Shell Support**: Works seamlessly with PowerShell and Zsh with minimal setup.
 
-”安全 (Safety) 和 无畏并发 (Concurrency)。“的优点如何融进去？
+## Installation and Setup
 
-先前的redis基础能否创意融进去？或作为一个扩展功能？
+1. Download the Executable: Download the latest pre-compiled binary for your system from the [Releases Page](https://github.com/2bitbit/rua/releases/latest). Place the executable in a convenient location on your computer.
 
-如果你哪点不清楚，请随时问我。
+2. Configure Your Shell: To enable `rua` to insert the selected command into your terminal prompt, you need to add a small function to your shell's configuration file.
+    * **For PowerShell**: Follow the instructions in [**scripts/pwsh.md**](https://github.com/2bitbit/rua/blob/main/scripts/pwsh.md).
+    * **For Zsh**: Follow the instructions in [**scripts/zsh.md**](https://github.com/2bitbit/rua/blob/main/scripts/zsh.md).
 
-## Code Joke
+## User Manual
+
+The core of Rua is simple and straightforward.
+
+| Command | Description |
+|---|---|
+| `rua` | (No arguments) Launches the interactive TUI. Press a shortcut key to select the corresponding command, which is then inserted into your prompt. Press `Esc` to exit. |
+| `rua add <KEY> '<COMMAND>'` | Adds a new command shortcut. The key must be a single alphanumeric character. <br/>*Example: `rua add g 'git status --short'`* |
+| `rua rm <KEYs>...` | Removes a command shortcut by its key. <br/>*Example: `rua rm a b c d`* |
+| `rua ls` | Lists all saved commands and their expanded paths without launching the interactive TUI. |
+
+## Building From Source
+
+If you prefer to build the project yourself:
+
+1. **Clone and Build**:
+```sh
+# Clone the repository
+git clone [https://github.com/2bitbit/rua.git](https://github.com/2bitbit/rua.git)
+cd rua
+
+# Build the release executable
+cargo build --release
+```
+2. **Configure Shell**: Remember to follow the shell setup steps mentioned in the "Installation" section above.
+
+<p align="center"> Colde Joke: 
 Rubus means "rua 不死", in contrast to "rua 嘀死"(`Rudis`).
+</p>

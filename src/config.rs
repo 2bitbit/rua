@@ -1,5 +1,8 @@
 //! 配置管理 (Source 枚举, 读写 config.toml)  
 //! 用于解析和表示 `rua source` 命令的参数。
+//! // TODO
+
+/*
 use serde::{Deserialize, Serialize};
 use std::net::SocketAddr;
 use std::path::PathBuf;
@@ -8,8 +11,9 @@ use std::str::FromStr;
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub enum Source {
     Default,
-    File(PathBuf),
-    Remote(SocketAddr),
+    // TODO:
+    // File(PathBuf),
+    // Remote(SocketAddr),
 }
 
 // 实现 FromStr Trait，以便 clap 能够直接解析
@@ -30,3 +34,4 @@ impl FromStr for Source {
         }
     }
 }
+*/

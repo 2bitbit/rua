@@ -1,9 +1,8 @@
 //！ CLI 定义
-use crate::config::Source;
 use clap::{Parser, Subcommand};
 
 #[derive(Parser, Debug)]
-#[clap(name = "rua", version, about = "一个智能的命令行快捷启动器")]
+#[clap(name = "rua", version, about = "Easily populate your frequently used commands.")]
 pub struct Cli {
     #[clap(subcommand)]
     pub command: Option<Commands>,
@@ -11,7 +10,8 @@ pub struct Cli {
 
 #[derive(Subcommand, Debug)]
 pub enum Commands {
-    /// 添加一条新命令到指定的存储源
+    //TODO: /// 添加一条新命令到指定的存储源 (Add a new command to the specified storage source)
+    /// 添加一条新命令 (Add a new command)
     Add {
         /// 命令的快捷键
         key: String,
@@ -19,19 +19,26 @@ pub enum Commands {
         #[clap(required = true)]
         command: Vec<String>,
     },
-    /// 从指定的存储源删除一条命令
+    // TODO: /// 从当前存储源删除一条或多条命令 (Remove one or more commands from the current storage source)
+    /// 删除一条或多条命令 (Remove one or more commands)
     Rm {
         /// 命令的快捷键
+        #[clap(required = true)]
         keys: Vec<String>,
     },
-    /// 列出当前存储源的所有命令
+    // TODO: /// 列出当前存储源的所有命令 (List all commands from the current storage source)
+    ///  列出所有命令和存储源 (List all commands and the config file path.)
     Ls,
-    /// 设置默认的命令来源 (default, file path, or ip:port)
-    Source {
-        /// 来源
-        source: Source,
-    },
-    // // 启动一个服务器来分发命令列表 // TODO
+
+
+    // TODO:
+    // /// 设置默认的命令来源 (default, file path, or ip:port)
+    // Source {
+    //     /// 来源
+    //     source: Source,
+    // },
+    // TODO:
+    // // 启动一个服务器来分发命令列表
     // #[clap(name = "serve")]
     // Serve {
     //     /// 作为数据源的JSON文件路径

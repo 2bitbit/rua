@@ -2,13 +2,15 @@
 //!
 //! ## 用户手册
 //! 无特殊说明，所有操作都只针对当前源。
-//! - `rua`: (无参数) 进入交互式 TUI 列表模式。在此模式下，按下一个快捷键，TUI 将退出并将对应的命令填充到您的命令行。（如果该 key 不存在，则什么也不会填充，单纯地退出 TUI）
-//!     - note: commands would automatically refreash according to source everytime you run 'rua' command.
-//! - `rua add  <KEY> '<COMMAND>'`: 添加一条新命令到**当前来源**
-//! 	- 示例: `rua add 'gs "git status --short"'`
-//! - `rua rm  <KEY>`: 删除**当前来源**的一条命令
+//! - `rua`: (无参数) 进入交互式 TUI 列表模式。在此模式下，按下一个快捷键，TUI 将退出并将对应的命令填充到您的命令行。
+//!     - note :如果该 key 不存在，则什么也不会填充，单纯地退出 TUI
+//! - `rua add  <KEY> '<COMMAND>'`: 添加一条快捷键, 新命令
+//! 	- 示例: `rua add "conda activate env_name && jupyter lab"`
+//! - `rua rm  <KEY>`: 删除一条命令
 //! 	- 示例: `rua rm gs`
-//! - `rua ls`: 以非交互方式，打印**当前来源**的所有命令。（内容包括）
+//! - `rua ls`: 以非交互方式，打印所有命令
+
+//!  // TODO:
 //! - `rua source <source>`: 设置 TUI 模式的默认命令来源。
 //! 	- `rua source default`: 使用默认本地文件。
 //! 	- `rua source /path/to/my_commands.json`: 使用指定的本地文件。
@@ -75,18 +77,17 @@ async fn main() -> Result<()> {
                 } else {
                     for entry in entries {
                         let expanded_cmd = expand_command(&entry.command);
-                        println!("{}",format_list_item!(entry.key, entry.command, expanded_cmd));
+                        println!(
+                            "{}",
+                            format_list_item!(entry.key, entry.command, expanded_cmd)
+                        );
                     }
                 }
                 // 根据设计文档，打印出当前的命令源
                 println!("source : {}", backend.source_path().to_string_lossy());
-            }
-            // TODO:后续阶段的命令
-            Commands::Source { .. } => {
-                println!("'source' command will be implemented in a future phase.");
-            } // Commands::Serve { .. } => {
-              //     println!("'serve' command will be implemented in a future phase.");
-              // }
+            } // TODO:后续阶段的命令
+              // Commands::Source { .. } => {println!("'source' command will be implemented in a future phase.");}
+              // Commands::Serve { .. } => {println!("'serve' command will be implemented in a future phase.");}
         }
     } else {
         // --- 调用 TUI ---

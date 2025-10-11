@@ -5,7 +5,5 @@ use serde::{Deserialize, Serialize};
 pub struct CommandEntry {
     pub key: String,
     pub command:String,
-    // 未来可扩展字段
-    // pub description: Option<String>,
-    // pub tags: Vec<String>,
+    // Allow to extend fields
 }
