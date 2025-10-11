@@ -68,7 +68,7 @@ impl StorageBackend for LocalBackend {
         self.read_entries().await
     }
 
-    async fn add(&mut self,entry: CommandEntry) -> Result<()> {
+    async fn add(&mut self, entry: CommandEntry) -> Result<()> {
         let mut entries = self.read_entries().await?;
 
         // 如果已存在相同的 key，则先移除，实现更新(upsert)效果
@@ -82,10 +82,10 @@ impl StorageBackend for LocalBackend {
         let mut entries = self.read_entries().await?;
         for k in keys {
             let initial_len = entries.len();
-            entries.retain(|e| e.key != *k); 
+            entries.retain(|e| e.key != *k);
             if entries.len() == initial_len {
                 return Err(anyhow!(
-                    "Key '{}' not found. And all subsequent deletions were not executed.",
+                    "Key '{}' not found. And all deletions were not executed.",
                     k
                 ));
             }
