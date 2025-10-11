@@ -2,7 +2,7 @@
 //! StorageBackend Trait 的本地文件系统实现，负责读写本地的 commands.json 文件。
 use crate::commands::CommandEntry;
 use crate::storage::StorageBackend;
-use anyhow::{Context, Result, anyhow};
+use anyhow::{Context, Ok, Result, anyhow};
 use std::path::{Path, PathBuf};
 use tokio::fs;
 
@@ -53,7 +53,8 @@ impl LocalBackend {
         let content = serde_json::to_string_pretty(entries)?;
         fs::write(&self.source_path, content)
             .await
-            .with_context(|| format!("Failed to write commands to {:?}", &self.source_path))
+            .with_context(|| format!("Failed to write commands to {:?}", &self.source_path))?;
+        Ok(())
     }
 
     // 辅助函数，用于 'ls' 命令打印来源路径
@@ -75,7 +76,8 @@ impl StorageBackend for LocalBackend {
         entries.retain(|e| e.key != entry.key);
 
         entries.push(entry);
-        self.write_entries(&entries).await
+        self.write_entries(&entries).await?;
+        Ok(())
     }
 
     async fn remove(&mut self, keys: &Vec<String>) -> Result<()> {
@@ -90,7 +92,7 @@ impl StorageBackend for LocalBackend {
                 ));
             }
         }
-
-        self.write_entries(&entries).await
+        self.write_entries(&entries).await?;
+        Ok(())
     }
 }
