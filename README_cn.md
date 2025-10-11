@@ -40,7 +40,7 @@ Rua 的使用非常简单。<!-- 所有操作都针对当前设置的命令源�
 1. **克隆与构建**:
 ```sh
 # 克隆仓库
-git clone [https://github.com/2bitbit/rua.git](https://github.com/2bitbit/rua.git)
+git clone https://github.com/2bitbit/rua.git
 cd rua
 
 # 编译 Release 版本

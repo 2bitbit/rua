@@ -1,5 +1,5 @@
 # Rua - A Smart Command Launcher
-<pre align="center">English   |  <a href="https://github.com/2bitbit/rua/README_cn.md">简体中文</a></pre>
+<pre align="center">English   |  <a href="https://github.com/2bitbit/rua/blob/main/README_cn.md">简体中文</a></pre>
 Rua is a fast and simple terminal utility that allows you to save and quickly access your frequently used shell commands through an interactive, key-based menu.
 
 ## Demo 
@@ -39,7 +39,7 @@ If you prefer to build the project yourself:
 1. **Clone and Build**:
 ```sh
 # Clone the repository
-git clone [https://github.com/2bitbit/rua.git](https://github.com/2bitbit/rua.git)
+git clone https://github.com/2bitbit/rua.git
 cd rua
 
 # Build the release executable
