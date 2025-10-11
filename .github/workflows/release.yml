@@ -54,5 +54,5 @@ jobs:
           name: Release ${{ github.ref_name }}
           # This will upload both the Windows and Linux executables
           files: |
-            dist/rua-windows/rua.exe
-            dist/rua-linux/rua
+            dist/rua-windows/rua-win.exe
+            dist/rua-linux/rua-linux
