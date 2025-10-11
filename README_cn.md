@@ -4,7 +4,7 @@ Rua 是一个轻快、简洁的终端工具，它能让你通过一个交互式�
 
 ## 功能演示
 
-![[demo.gif]]
+<img src="./demo.gif" alt="demo" width="auto">
 
 ## 主要功能
 

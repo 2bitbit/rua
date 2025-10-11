@@ -4,7 +4,7 @@ Rua is a fast and simple terminal utility that allows you to save and quickly ac
 
 ## Demo 
 
-![[demo.gif]]
+<img src="./demo.gif" alt="demo" width="auto">
 
 ## Key Features
 
