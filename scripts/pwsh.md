@@ -14,13 +14,11 @@ function rua-helper-function-Invoke-PasteAndRestore {
             [System.Windows.Forms.SendKeys]::SendWait("^v")
             Start-Sleep -Milliseconds 200
         }
-        finally{
-            if ($null -ne $OriginalContent) {Set-Clipboard -Value $OriginalContent} 
-            else {Clear-Clipboard}
-        }
+        finally{Set-Clipboard -Value $OriginalContent}
     }
     Start-ThreadJob -ScriptBlock $scriptBlock -ArgumentList $TextToPaste, $OriginalClipboardContent | Out-Null
 }
+
 function rua {
     $rua_executable = "<path/to/your/rua.exe e.g. D:\Workspace\Repos\rua\target\debug\rua.exe>"
 

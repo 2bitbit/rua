@@ -19,10 +19,7 @@ function rua-helper-function-Invoke-PasteAndRestore {
             # A tiny delay helps ensure the paste command has been processed by the system.
             Start-Sleep -Milliseconds 200
         }
-        finally{
-            if ($null -ne $OriginalContent) {Set-Clipboard -Value $OriginalContent} 
-            else {Clear-Clipboard}  # If the original clipboard was empty, clear it again.
-        }
+        finally{Set-Clipboard -Value $OriginalContent}
     }
     # Start a lightweight thread job to run the script block without delay.
     Start-ThreadJob -ScriptBlock $scriptBlock -ArgumentList $TextToPaste, $OriginalClipboardContent | Out-Null
