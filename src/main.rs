@@ -48,10 +48,20 @@ async fn main() -> Result<()> {
     if let Some(command) = cli.command {
         match command {
             Commands::Add { key, command } => {
+                // 检查 Key 合法性
                 if !AVAILABLE_KEYS.contains(&key) {
                     eprint!("Error: Invalid key. Available keys are: a-z, A-Z, 0-9");
                     std::process::exit(1);
                 }
+
+                // 检查 Key 是否已存在，如果发现 key 已经存在，则报错并提示使用 update
+                let entries = backend.get_all().await?;
+                if entries.iter().any(|e| e.key == key) {
+                    eprintln!("Error: Key '{}' already exists. Use 'rua update <KEY> <COMMAND>' to overwrite it.", key);
+                    std::process::exit(1);
+                }
+
+                // 执行添加
                 let command = command.join(" ");
                 let entry = CommandEntry {
                     key: key.clone(),
@@ -59,6 +69,33 @@ async fn main() -> Result<()> {
                 };
                 backend.add(entry).await?;
                 println!("Added/Updated '{}': '{}'", key, command);
+            }
+
+            Commands::Update { key, command } => {
+                // 检查 Key 合法性
+                if !AVAILABLE_KEYS.contains(&key) {
+                    eprintln!("Error: Invalid key. Available keys are: a-z, A-Z, 0-9");
+                    std::process::exit(1);
+                }
+
+                // 检查 Key 是否不存在。如果找不到 key，则报错并提示使用 add
+                let entries = backend.get_all().await?;
+                if !entries.iter().any(|e| e.key == key) {
+                    eprintln!("Error: Key '{}' not found. Use 'rua add <KEY> <COMMAND>' to create it.", key);
+                    std::process::exit(1);
+                }
+                
+                // 执行更新
+                let command = command.join(" ");
+                let entry = CommandEntry {
+                    key: key.clone(),
+                    command: command.clone(),
+                };
+                
+                // 由于 LocalBackend::add 的实现逻辑本身就是覆盖（先删后加），
+                // 只要通过了上面的“存在性检查”，这里直接复用 add 即可。
+                backend.add(entry).await?;
+                println!("Updated '{}': '{}'", key, command);
             }
             Commands::Rm { keys } => {
                 match backend.remove(&keys).await {

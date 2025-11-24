@@ -19,6 +19,16 @@ pub enum Commands {
         #[clap(required = true)]
         command: Vec<String>,
     },
+    
+    /// 更新一条已存在的命令 (Update an existing command)
+    Update {
+        /// 命令的快捷键
+        key: String,
+        /// 新的完整命令内容
+        #[clap(required = true)]
+        command: Vec<String>,
+    },
+
     // TODO: /// 从当前存储源删除一条或多条命令 (Remove one or more commands from the current storage source)
     /// 删除一条或多条命令 (Remove one or more commands)
     Rm {
